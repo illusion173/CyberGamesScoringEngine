@@ -1,0 +1,10 @@
+TARGETS:
+  TARGETONE:
+    IP: 127.0.0.1
+    PORT: 21
+  TARGETTWO:
+    IP: 10.187.125.55
+    PORT: 21
+# Essentially, for each service to check, they must be a target.
+# If I want to check the same computer, but different service, they must be a different target.
+# Target Two should not work

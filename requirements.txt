@@ -1,0 +1,10 @@
+ping3
+dnspython
+requests
+activesoup
+paramiko
+mysql-connector-python
+pydantic
+faker
+psycopg2-binary
+pyyaml
