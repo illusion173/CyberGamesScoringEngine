@@ -1,7 +1,7 @@
 import yaml
 import json
 
-yaml_filename = "env_vars.yaml"
+yaml_filename = "EnvVars.yaml"
 
 
 def load_yaml(filename):
