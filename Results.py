@@ -166,9 +166,14 @@ class FinalResult:
 
 class ServiceHealthCheck:
     target_host: str = ""
+    target_port: str = ""
     result: FinalResult = FinalResult()
     args: argparse.Namespace
     parser: argparse.ArgumentParser
 
-    def __init__(self, ip_host: str):
-        self.target_host = ip_host
+    def __init__(self, target_host: str, target_port: str):
+        self.target_host = target_host
+        self.target_port = target_port
+
+    def getPort(self):
+        return self.target_port

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import ping3
+import asyncio
 from Results import ServiceHealthCheck
 
 # Enable specific Errors
@@ -11,11 +12,15 @@ class ICMPCheck:
     def __init__(self, service_check: ServiceHealthCheck):
         self.service_check_priv = service_check
 
-    def execute(self):
+    async def execute(self):
         """Execute the ICMP Check."""
         details = {"target": self.service_check_priv.target_host}
+        loop = asyncio.get_running_loop()
         try:
-            result = ping3.ping(self.service_check_priv.target_host, timeout=4)
+            # result = ping3.ping(self.service_check_priv.target_host, timeout=4)
+            result = await loop.run_in_executor(
+                None, ping3.ping, self.service_check_priv.target_host, 4
+            )
             # Leave this for now, may use for later
             """
             if result is None:  # Treat None result as Destination Host Unreachable

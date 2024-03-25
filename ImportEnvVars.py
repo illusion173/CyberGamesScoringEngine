@@ -1,7 +1,7 @@
 import yaml
 import json
 
-yaml_filename = "EnvVars.yaml"
+YAMLFILENAME = "EnvVars.yaml"
 
 
 def load_yaml(filename):
@@ -15,15 +15,8 @@ def yaml_to_json(yaml_data):
     return json_data
 
 
-# Load YAML data
-yaml_data = load_yaml(yaml_filename)
-
-# Convert YAML to JSON
-json_data = yaml_to_json(yaml_data)
-
-
 def load_env_vars():
-    yaml_data = load_yaml(yaml_filename)
+    yaml_data = load_yaml(YAMLFILENAME)
     env_vars = yaml_to_json(yaml_data)
 
     return env_vars
