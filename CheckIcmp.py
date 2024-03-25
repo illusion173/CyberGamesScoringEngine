@@ -3,7 +3,8 @@
 import ping3
 from Results import ServiceHealthCheck
 
-# ping3.Exceptions = True
+# Enable specific Errors
+ping3.EXCEPTIONS = True
 
 
 class ICMPCheck:
@@ -15,14 +16,17 @@ class ICMPCheck:
         details = {"target": self.service_check_priv.target_host}
         try:
             result = ping3.ping(self.service_check_priv.target_host, timeout=4)
+            # Leave this for now, may use for later
+            """
             if result is None:  # Treat None result as Destination Host Unreachable
                 raise ping3.errors.DestinationHostUnreachable(
                     f"Destination Host Unreachable for host: {self.service_check_priv.target_host}"
                 )
+            """
         except ping3.errors.Timeout as e:
             details["raw"] = str(e)
             self.service_check_priv.result.fail(
-                feedback=f"Request Timed Out after 4 seconds",
+                feedback=f"Request Timed Out after 4 seconds for host {self.service_check_priv.target_host}",
                 staff_details=details,
             )
             return self.service_check_priv

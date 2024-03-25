@@ -1,7 +1,7 @@
 import json
 from Results import ServiceHealthCheck
 from ImportEnvVars import load_env_vars
-from check_icmp import ICMPCheck
+from CheckIcmp import ICMPCheck
 import json
 
 
