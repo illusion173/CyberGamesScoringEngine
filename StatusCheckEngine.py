@@ -1,9 +1,11 @@
-import time
+import asyncio
+import sys
 from Results import ServiceHealthCheck
 from ImportEnvVars import load_env_vars
 from CheckIcmp import ICMPCheck
+from CheckFTP import FTPCheck
+from CheckSSH import SSHCheck
 from DBConnector import insert_service_health_check
-import asyncio
 
 
 def prepare_service_check(Loaded_Vars: dict) -> list:
@@ -24,14 +26,22 @@ async def arrange_service_check(service_check):
 
     match port:
         case "ICMP":
-            print("ICMP")
+            print("ICMP CHECK")
             result = await ICMPCheck(service_check).execute()
-            print(result.result.result)
         case "21":
-            print("FTP")
+            result = ""
+            print("FTP CHECK")
             # Handle other cases similarly
+            result = await FTPCheck(service_check).execute()
         case "22":
-            print("SSH")
+            result = ""
+            print("SSH CHECK")
+            result = await SSHCheck(service_check).execute()
+        case _:
+            print("ERROR, No service or Port Inputted?")
+            sys.exit(0)
+
+    return result
 
 
 async def main():
@@ -39,15 +49,25 @@ async def main():
         # Targets must be able to be loaded to start program
         loaded_vars = load_env_vars()
         while True:
-            # Every 5 seconds, reattempt targets.
             prepare_service_checks = prepare_service_check(loaded_vars)
-            for service_check in prepare_service_checks:
-                result = await arrange_service_check(service_check)
-            time.sleep(5)
+            # Create a list of coroutine objects for each service check
+            tasks = [
+                arrange_service_check(service_check)
+                for service_check in prepare_service_checks
+            ]
+
+            # Use asyncio.as_completed to process results as they become available
+            for coro in asyncio.as_completed(tasks):
+                result = await coro  # Wait for the next task to complete
+                print(result.result.result)
+                # RESULT HANDLING HERE
+                # insert_service_health_check(result, "TEST")
+
+            # Wait 5 seconds, reattempt targets.
+            await asyncio.sleep(20)
     except KeyboardInterrupt:
         print("\nCtrl+C Detected, Quitting Status Check Engine.")
 
 
 if __name__ == "__main__":
-    # main()
     asyncio.run(main())

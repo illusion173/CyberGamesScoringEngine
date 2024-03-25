@@ -1,7 +1,7 @@
 TARGETS:
   TARGETONE:
     IP: 127.0.0.1
-    PORT: ICMP
+    PORT: 22
   TARGETTWO:
     IP: 10.187.125.55
     PORT: ICMP
