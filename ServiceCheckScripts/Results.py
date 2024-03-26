@@ -17,6 +17,12 @@ class ResultCode(enum.Enum):
     ERROR = "error"
 
 
+class SSHInfo:
+    ssh_priv_key: str
+    ssh_pub_key: str
+    ssh_username: str
+
+
 class ResultJSONEncoder(json.JSONEncoder):
     """
     Encoder to handle converting result to JSON
@@ -159,13 +165,20 @@ class ServiceHealthCheck:
     target_port: str = ""
     team_name: str = ""
     team_id: str = ""
+    ssh_info: Optional[SSHInfo]
     points: int = 0
     result: FinalResult = FinalResult()
 
     def __init__(
-        self, target_host: str, target_port: str, team_name: str, team_id: str
+        self,
+        target_host: str,
+        target_port: str,
+        team_name: str,
+        team_id: str,
+        ssh_info: Optional[SSHInfo] = None,
     ):
         self.target_host = target_host
         self.target_port = target_port
         self.team_name = team_name
         self.team_id = team_id
+        self.ssh_info = ssh_info
