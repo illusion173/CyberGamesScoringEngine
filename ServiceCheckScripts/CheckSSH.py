@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import asyncio
-from Results import ServiceHealthCheck
+from .Results import ServiceHealthCheck
 
 
 class SSHCheck:

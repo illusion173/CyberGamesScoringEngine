@@ -3,13 +3,13 @@ TEAMS:
     TEAM_ID: 123132
     TARGETS:
       - IP: 127.0.0.1
-        PORT: ICMP
+        PORT: 21
       - IP: 10.187.125.55
-        PORT: ICMP
+        PORT: 21
       - IP: 127.0.0.1
-        PORT: ICMP
+        PORT: 21
   - TEAM_NAME: Rays
     TEAM_ID: 321452
     TARGETS:
       - IP: 127.0.0.1
-        PORT: ICMP
+        PORT: 21

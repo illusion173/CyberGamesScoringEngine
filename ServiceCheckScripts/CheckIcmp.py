@@ -2,7 +2,7 @@
 
 import ping3
 import asyncio
-from Results import ServiceHealthCheck
+from .Results import ServiceHealthCheck
 
 # Enable specific Errors
 ping3.EXCEPTIONS = True
