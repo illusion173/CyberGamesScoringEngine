@@ -8,7 +8,7 @@ class SSHCheck:
         self.service_check_priv = service_check
 
     async def execute(self):
-        """Execute the ICMP Check."""
+        """Execute the SSH Check."""
         details = {"target": self.service_check_priv.target_host}
         loop = asyncio.get_running_loop()
         print("We got to SSH!")

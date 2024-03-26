@@ -3,22 +3,32 @@ import asyncio
 import sys
 from Results import ServiceHealthCheck
 from ImportEnvVars import load_env_vars
-from CheckIcmp import ICMPCheck
-from CheckFTP import FTPCheck
-from CheckSSH import SSHCheck
-from DBConnector import insert_service_health_check
+from ServiceCheckScripts import CheckIcmp, CheckFTP, CheckSSH
+from DBScripts import DBConnector
 
 
 def prepare_service_check(Loaded_Vars: dict) -> list:
     prepared_service_checks = []
 
-    for target in Loaded_Vars["TARGETS"].values():
+    for team in Loaded_Vars["TEAMS"].values():
+        # We need to create a new Service Check
+        newServicHealthCheck = ServiceHealthCheck(
+            target_host=str(0),
+            target_port=str(0),
+            team_id=str(team["TEAM_ID"]),
+            team_name=str(team["TEAM_NAME"]),
+        )
+
+        for targets in team:
+
+
+
         prepared_service_checks.append(
             ServiceHealthCheck(
                 target_host=target["IP"],
                 target_port=str(target["PORT"]),
                 team_id=str(target["TEAM_ID"]),
-                team_name=str(target["TEAM_NAME"]),
+                team_name=str(team["TEAM_NAME"]),
             )
         )
 
@@ -31,16 +41,16 @@ async def arrange_service_check(service_check):
     match port:
         case "ICMP":
             print("ICMP CHECK")
-            result = await ICMPCheck(service_check).execute()
+            result = await CheckIcmp.ICMPCheck(service_check).execute()
         case "21":
             result = ""
             print("FTP CHECK")
             # Handle other cases similarly
-            result = await FTPCheck(service_check).execute()
+            result = await CheckFTP.FTPCheck(service_check).execute()
         case "22":
             result = ""
             print("SSH CHECK")
-            result = await SSHCheck(service_check).execute()
+            result = await CheckSSH.SSHCheck(service_check).execute()
         case _:
             print("ERROR, No service or Port Inputted?")
             sys.exit(0)

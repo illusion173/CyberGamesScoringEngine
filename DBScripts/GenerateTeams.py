@@ -50,8 +50,7 @@ def get_string_input(prompt):
         # Check if the input contains only letters
         if user_input.isalpha():
             return user_input
-        else:
-            print("Invalid input. Please enter a string without any numbers.")
+        print("Invalid input. Please enter a string without any numbers.")
 
 
 def main():

@@ -19,4 +19,11 @@ def load_env_vars():
     yaml_data = load_yaml(YAMLFILENAME)
     env_vars = yaml_to_json(yaml_data)
 
+    for team in env_vars["TEAMS"]:
+        print(team["TEAM_NAME"])
+        print(team["TEAM_ID"])
+
     return env_vars
+
+
+load_env_vars()
