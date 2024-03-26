@@ -1,15 +1,7 @@
 #!/usr/bin/env python3
 import enum
 import json
-import sys
 from typing import Optional, Union, Any, List
-import argparse
-import ping3
-import json
-import sys
-import argparse
-from pydantic import Field
-from ImportEnvVars import load_env_vars
 
 
 class ResultCode(enum.Enum):
@@ -157,8 +149,6 @@ class FinalResult:
         if staff_details:
             self.add_staff_detail(staff_details)
 
-        # sys.exit(0)
-
     def json(self) -> str:
         """Dump results to JSON."""
         return json.dumps(self.__dict__, cls=ResultJSONEncoder)
@@ -167,13 +157,15 @@ class FinalResult:
 class ServiceHealthCheck:
     target_host: str = ""
     target_port: str = ""
+    team_name: str = ""
+    team_id: str = ""
+    points: int = 0
     result: FinalResult = FinalResult()
-    args: argparse.Namespace
-    parser: argparse.ArgumentParser
 
-    def __init__(self, target_host: str, target_port: str):
+    def __init__(
+        self, target_host: str, target_port: str, team_name: str, team_id: str
+    ):
         self.target_host = target_host
         self.target_port = target_port
-
-    def getPort(self):
-        return self.target_port
+        self.team_name = team_name
+        self.team_id = team_id

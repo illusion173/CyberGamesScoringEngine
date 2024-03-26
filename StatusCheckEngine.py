@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import asyncio
 import sys
 from Results import ServiceHealthCheck
@@ -14,7 +15,10 @@ def prepare_service_check(Loaded_Vars: dict) -> list:
     for target in Loaded_Vars["TARGETS"].values():
         prepared_service_checks.append(
             ServiceHealthCheck(
-                target_host=target["IP"], target_port=str(target["PORT"])
+                target_host=target["IP"],
+                target_port=str(target["PORT"]),
+                team_id=str(target["TEAM_ID"]),
+                team_name=str(target["TEAM_NAME"]),
             )
         )
 
