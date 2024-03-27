@@ -19,7 +19,6 @@ class ResultCode(enum.Enum):
 
 class SSHInfo:
     ssh_priv_key: str
-    ssh_pub_key: str
     ssh_username: str
 
 

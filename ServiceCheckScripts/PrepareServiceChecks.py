@@ -10,11 +10,10 @@ def prepare_service_check(loaded_env_dict: dict) -> list:
         for target in target_list:
             # We need to create a new Service Check
             new_ssh_info = None
-            if target["PORT"] == "22":
+            if str(target["PORT"]) == "22":
                 new_ssh_info = Results.SSHInfo()
                 new_ssh_info.ssh_username = target["SSH_USERNAME"]
                 new_ssh_info.ssh_priv_key = target["SSH_PRIV_KEY"]
-                new_ssh_info.ssh_pub_key = target["SSH_PUB_KEY"]
 
             new_service_health_check = Results.ServiceHealthCheck(
                 target_host=str(target["IP"]),

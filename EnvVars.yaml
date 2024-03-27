@@ -2,17 +2,12 @@ TEAMS:
   - TEAM_NAME: Dolphins
     TEAM_ID: 123132
     TARGETS:
-      - IP: 127.0.0.1
+      - IP: 52.91.194.25
         PORT: 22
-        SSH_USERNAME:
-        SSH_PRIV_KEY:
-        SSH_PUB_KEY:
-      - IP: 10.187.125.55
-        PORT: 21
-      - IP: 127.0.0.1
-        PORT: 21
+        SSH_USERNAME: ec2-user
+        SSH_PRIV_KEY: Arch-SSH-Pair.pem
   - TEAM_NAME: Rays
     TEAM_ID: 321452
     TARGETS:
       - IP: 127.0.0.1
-        PORT: 21
+        PORT: ICMP

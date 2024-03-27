@@ -5,7 +5,7 @@ import sys
 import paramiko
 import paramiko.ssh_exception
 import socket
-import io
+from pathlib import Path
 
 
 class SSHCheck:
@@ -15,17 +15,20 @@ class SSHCheck:
     async def execute(self):
         """Execute the SSH Check."""
         details = {"target": self.service_check_priv.target_host}
+        print(self.service_check_priv.ssh_info)
         if self.service_check_priv.ssh_info:
             details["ssh_username"] = self.service_check_priv.ssh_info.ssh_username
             details["ssh_priv_key"] = self.service_check_priv.ssh_info.ssh_priv_key
-            details["ssh_pub_key"] = self.service_check_priv.ssh_info.ssh_pub_key
         else:
-            print("Error while retrieving SSH info for target %s", details["target"])
+            print("Error while retrieving SSH info for target", details["target"])
             sys.exit(0)
         # Assuming 'details["ssh_priv_key"]' contains the private key as a string
-        private_key_str = details["ssh_priv_key"]
-        private_key_file_obj = io.StringIO(private_key_str)
-        private_key = paramiko.RSAKey.from_private_key(private_key_file_obj)
+        private_key_file_name = details["ssh_priv_key"]
+        private_key_file_path = str(Path.home()) + "/" + private_key_file_name
+
+        private_key_file_obj = paramiko.RSAKey.from_private_key_file(
+            private_key_file_path
+        )
 
         loop = asyncio.get_running_loop()
         ssh = paramiko.SSHClient()
@@ -38,17 +41,30 @@ class SSHCheck:
                 lambda: ssh.connect(
                     hostname=details["target"],
                     username=details["ssh_username"],
-                    pkey=private_key,
+                    pkey=private_key_file_obj,
                     timeout=5,
                 ),
             )
             ssh.exec_command("exit 0")
         except (paramiko.ssh_exception.NoValidConnectionsError, socket.timeout) as e:
-            print(e)
+            details["raw"] = str(e)
+            self.service_check_priv.result.fail(
+                feedback=f"Request Timed Out after 4 seconds for host {self.service_check_priv.target_host}",
+                staff_details=details,
+            )
         except paramiko.AuthenticationException as e:
+            details["raw"] = str(e)
+            self.service_check_priv.result.error(
+                feedback=f"Could not Authneticate host: {self.service_check_priv.target_host} for user {self.service_check_priv.ssh_info.ssh_username}",
+                staff_details=details,
+            )
             print(e)
         except Exception as exc:
-            print(exc)
+            details["raw"] = str(exc)
+            self.service_check_priv.result.error(
+                feedback="SSH Service Check Execution had an Exception: Call Staff",
+                staff_details=details,
+            )
         finally:
             ssh.close()
 
