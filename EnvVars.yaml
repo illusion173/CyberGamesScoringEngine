@@ -9,5 +9,5 @@ TEAMS:
   - TEAM_NAME: Rays
     TEAM_ID: 321452
     TARGETS:
-      - IP: 127.0.0.1
+      - IP: 52.91.194.25
         PORT: ICMP

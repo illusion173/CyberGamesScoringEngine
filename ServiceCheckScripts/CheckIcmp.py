@@ -21,13 +21,6 @@ class ICMPCheck:
             result = await loop.run_in_executor(
                 None, ping3.ping, self.service_check_priv.target_host, 4
             )
-            # Leave this for now, may use for later
-            """
-            if result is None:  # Treat None result as Destination Host Unreachable
-                raise ping3.errors.DestinationHostUnreachable(
-                    f"Destination Host Unreachable for host: {self.service_check_priv.target_host}"
-                )
-            """
         except ping3.errors.Timeout as e:
             details["raw"] = str(e)
             self.service_check_priv.result.fail(
