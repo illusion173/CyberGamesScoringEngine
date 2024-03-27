@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS targets (
 CREATE TABLE IF NOT EXISTS ports (
   port_id INT AUTO_INCREMENT PRIMARY KEY,
   target_id VARCHAR(255) NOT NULL
-  port_number VARCHAR(255) NOT NULL
+  port_number VARCHAR(255) DEFAULT NULL
   service_name VARCHAR(255) NOT NULL
   result_code ENUM('success', 'failure', 'partial', 'timeout', 'unknown', 'error') NOT NULL,
   participant_feedback TEXT,
