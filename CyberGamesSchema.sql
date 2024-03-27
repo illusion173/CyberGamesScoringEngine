@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS ports (
   participant_feedback TEXT,
   staff_feedback TEXT,
   points_obtained, INT
-  FOREIGN KEY (target_id) REFERENCES targets(target_id) ON DELETE SET NULL
+  FOREIGN KEY (target_id) REFERENCES targets(target_id) ON DELETE CASCADE
 )
