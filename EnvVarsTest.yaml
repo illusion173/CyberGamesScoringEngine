@@ -3,13 +3,10 @@ TEAMS:
     TEAM_ID: 123132
     TARGETS:
       - IP: 52.91.194.25
-        #- IP: 52.91.194.25
         PORT: 22
         SERVICE_NAME: SSH
         SSH_USERNAME: ec2-user
         SSH_PRIV_KEY: Arch-SSH-Pair.pem
-        SSH_SCRIPT: "md5sum md5checkfile.txt"
-        MD5_SUM: "b2cfa4183267af678ea06c7407d4d6d8"
   - TEAM_NAME: Rays
     TEAM_ID: 321452
     TARGETS:

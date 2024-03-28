@@ -3,6 +3,8 @@ import asyncio
 from ServiceCheckScripts import PrepareServiceChecks
 from ServiceCheckScripts import ExecuteServiceCheck
 from ServiceCheckScripts import ImportEnvVars
+from ServiceCheckScripts import Scoring
+from DBScripts import DBConnector
 
 
 async def main():
@@ -21,8 +23,12 @@ async def main():
 
             # Use asyncio.as_completed to process results as they become available
             for coro in asyncio.as_completed(tasks):
+
                 result = await coro  # Wait for the next task to complete
-                print(result.result.result)
+
+                # Score all the service checks here
+                scored_service_check = Scoring.score_health_check(result)
+                # DBConnector.insert_service_health_check(scored_service_check)
                 # RESULT HANDLING HERE
                 # insert_service_health_check(result, "TEST")
 

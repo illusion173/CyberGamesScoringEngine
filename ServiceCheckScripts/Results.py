@@ -20,6 +20,8 @@ class ResultCode(enum.Enum):
 class SSHInfo:
     ssh_priv_key: str
     ssh_username: str
+    ssh_script: str
+    md5sum: str
 
 
 class ResultJSONEncoder(json.JSONEncoder):
@@ -161,9 +163,10 @@ class FinalResult:
 
 class ServiceHealthCheck:
     target_host: str = ""
-    target_port: str = ""
+    target_port: Optional[str]
     team_name: str = ""
     team_id: str = ""
+    service_name: str = ""
     ssh_info: Optional[SSHInfo]
     points: int = 0
     result: FinalResult = FinalResult()
@@ -171,13 +174,15 @@ class ServiceHealthCheck:
     def __init__(
         self,
         target_host: str,
-        target_port: str,
         team_name: str,
         team_id: str,
+        service_name: str,
         ssh_info: Optional[SSHInfo] = None,
+        target_port: Optional[str] = None,
     ):
         self.target_host = target_host
         self.target_port = target_port
         self.team_name = team_name
         self.team_id = team_id
         self.ssh_info = ssh_info
+        self.service_name = service_name
