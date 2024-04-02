@@ -24,6 +24,13 @@ class SSHInfo:
     md5sum: str
 
 
+class FTPInfo:
+    ftp_username: str
+    ftp_password: str
+    directory: str
+    files: Optional[List[str]]
+
+
 class HTTPInfo:
     url: str
     path: str
@@ -179,6 +186,7 @@ class ServiceHealthCheck:
     service_name: str = ""
     ssh_info: Optional[SSHInfo]
     http_info: Optional[HTTPInfo]
+    ftp_info: Optional[FTPInfo]
     points: int = 0
     result: FinalResult = FinalResult()
 
@@ -191,6 +199,7 @@ class ServiceHealthCheck:
         ssh_info: Optional[SSHInfo] = None,
         target_port: Optional[str] = None,
         http_info: Optional[HTTPInfo] = None,
+        ftp_info: Optional[FTPInfo] = None,
     ):
         self.target_host = target_host
         self.target_port = target_port
@@ -199,3 +208,4 @@ class ServiceHealthCheck:
         self.ssh_info = ssh_info
         self.service_name = service_name
         self.http_info = http_info
+        self.ftp_info = ftp_info

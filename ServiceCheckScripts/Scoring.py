@@ -24,7 +24,11 @@ def score_ssh(given_service_health_check: ServiceHealthCheck) -> int:
 
 # TO DO
 def score_ftp(given_service_health_check: ServiceHealthCheck) -> int:
-    return score_generic(given_service_health_check, pass_score=0)
+    return score_generic(given_service_health_check, pass_score=25, warn_score=10)
+
+
+def score_http(given_service_health_check: ServiceHealthCheck) -> int:
+    return score_generic(given_service_health_check, pass_score=25, warn_score=10)
 
 
 def score_health_check(
@@ -34,6 +38,7 @@ def score_health_check(
         "ICMP": score_icmp,
         "FTP": score_ftp,
         "SSH": score_ssh,
+        "HTTP": score_http,
     }
 
     scoring_function = scoring_functions.get(given_service_health_check.service_name)

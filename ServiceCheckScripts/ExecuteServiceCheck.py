@@ -1,5 +1,5 @@
 import sys
-from ServiceCheckScripts import CheckIcmp, CheckFTP, CheckSSH
+from ServiceCheckScripts import CheckIcmp, CheckFTP, CheckSSH, CheckHTTP
 from .Results import ServiceHealthCheck
 
 
@@ -13,6 +13,8 @@ async def arrange_service_check(service_check: ServiceHealthCheck):
             service_check_result = await CheckFTP.FTPCheck(service_check).execute()
         case "SSH":
             service_check_result = await CheckSSH.SSHCheck(service_check).execute()
+        case "HTTP":
+            service_check_result = await CheckHTTP.HTTPCheck(service_check).execute()
         case _:
             print("ERROR, No service or Port Inputted? Call Staff.")
             sys.exit(0)

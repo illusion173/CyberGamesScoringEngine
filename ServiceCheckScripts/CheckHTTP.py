@@ -1,6 +1,6 @@
 import requests
 import asyncio
-from .Results import ServiceHealthCheck, HTTPInfo
+from .Results import ServiceHealthCheck
 
 
 class HTTPCheck:
@@ -9,20 +9,24 @@ class HTTPCheck:
 
     async def execute(self):
         """Execute the HTTP Check."""
-        details = {"target": self.service_check_priv.target_host}
+        details = {"target": self.service_check_priv.target_host, "timeout": 4}
 
         if self.service_check_priv.http_info:
             details["url"] = self.service_check_priv.http_info.url
             details["path"] = self.service_check_priv.http_info.path
 
         loop = asyncio.get_running_loop()
-        full_url = f"http://{details['url']}/{details['path']}"
+
+        if details["path"]:
+            full_url = f"http://{details['url']}/{details['path']}"
+        else:
+            full_url = f"http://{details['url']}"
         details["full_url"] = full_url
 
         try:
             # Since requests.get is a blocking operation, run it in the executor
             response = await loop.run_in_executor(
-                None, requests.get, full_url, {"timeout": 4}
+                None, requests.get, full_url, details["timeout"]
             )
             if response.status_code == 200:
                 self.service_check_priv.result.success(

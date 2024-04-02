@@ -13,6 +13,7 @@ def prepare_service_check(loaded_env_dict: dict) -> list:
             for action in actions_list:
                 new_ssh_info = None
                 new_http_info = None
+                new_ftp_info = None
                 service_name = action["SERVICE_NAME"]
 
                 match service_name:
@@ -26,6 +27,11 @@ def prepare_service_check(loaded_env_dict: dict) -> list:
                         new_http_info = Results.HTTPInfo()
                         new_http_info.url = action["URL"]
                         new_http_info.path = action["PATH"]
+                    case "FTP":
+                        new_ftp_info = Results.FTPInfo()
+                        new_ftp_info.ftp_username = action["FTP_USERNAME"]
+                        new_ftp_info.ftp_password = action["FTP_PASSWORD"]
+                        new_ftp_info.files = action["FILES"]
                     case _:
                         None
 
