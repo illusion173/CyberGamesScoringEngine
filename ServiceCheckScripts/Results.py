@@ -24,6 +24,16 @@ class SSHInfo:
     md5sum: str
 
 
+class HTTPInfo:
+    url: str
+    path: str
+
+
+class HTTPSInfo:
+    url: str
+    path: str
+
+
 class ResultJSONEncoder(json.JSONEncoder):
     """
     Encoder to handle converting result to JSON
@@ -168,6 +178,7 @@ class ServiceHealthCheck:
     team_id: str = ""
     service_name: str = ""
     ssh_info: Optional[SSHInfo]
+    http_info: Optional[HTTPInfo]
     points: int = 0
     result: FinalResult = FinalResult()
 
@@ -179,6 +190,7 @@ class ServiceHealthCheck:
         service_name: str,
         ssh_info: Optional[SSHInfo] = None,
         target_port: Optional[str] = None,
+        http_info: Optional[HTTPInfo] = None,
     ):
         self.target_host = target_host
         self.target_port = target_port
@@ -186,3 +198,4 @@ class ServiceHealthCheck:
         self.team_id = team_id
         self.ssh_info = ssh_info
         self.service_name = service_name
+        self.http_info = http_info

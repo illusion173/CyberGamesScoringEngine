@@ -50,22 +50,32 @@ def update_service_status(
     :param points_obtained: The points obtained to be updated (optional).
     :param target_id: The target id to be updated (optional).
     """
-    update_service_statement = "UPDATE ports SET "
-    statement_elements = []
+
+    # Dictionary of fields to update, initially empty
+    fields_to_update = {}
+
+    # Populate the dictionary only with the fields that are not None
     if port_number is not None:
-        statement_elements.append(f"port_number = '{port_number}'")
-        if result_code is not None:
-            statement_elements.append(f"result_code = '{result_code}'")
-        if participant_feedback is not None:
-            statement_elements.append(
-                f"participant_feedback = '{participant_feedback}'"
-            )
-        if staff_feedback is not None:
-            statement_elements.append(f"staff_feedback = '{staff_feedback}'")
-        if points_obtained is not None:
-            statement_elements.append(f"points_obtained = {points_obtained}")
-    update_service_statement += ", ".join(statement_elements)
-    update_service_statement += f" WHERE service_name = {service_name} AND target_id = {target_id} AND team_id = {team_id}"
+        fields_to_update["port_number"] = port_number
+    if result_code is not None:
+        fields_to_update["result_code"] = result_code
+    if participant_feedback is not None:
+        fields_to_update["participant_feedback"] = participant_feedback
+    if staff_feedback is not None:
+        fields_to_update["staff_feedback"] = staff_feedback
+    if points_obtained is not None:
+        fields_to_update["points_obtained"] = points_obtained
+
+    # Generate the SQL statement dynamically based on the fields_to_update dictionary
+    # The statement uses placeholders for values to securely parameterize the query
+    update_fields = ", ".join([f"{key} = %s" for key in fields_to_update.keys()])
+    update_values = list(fields_to_update.values())
+
+    # Complete SQL statement with placeholders for the WHERE clause
+    update_service_statement = f"UPDATE ports SET {update_fields} WHERE service_name = %s AND target_id = %s AND team_id = %s"
+
+    # Adding WHERE clause values to the list of parameters
+    update_values.extend([service_name, target_id, team_id])
 
     try:
         cursor.execute(update_service_statement)

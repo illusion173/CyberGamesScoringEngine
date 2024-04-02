@@ -28,9 +28,11 @@ async def main():
 
                 # Score all the service checks here
                 scored_service_check = Scoring.score_health_check(result)
-                # DBConnector.insert_service_health_check(scored_service_check)
+                print(scored_service_check.service_name)
+                print(scored_service_check.result.result)
                 # RESULT HANDLING HERE
-                # insert_service_health_check(result, "TEST")
+                # UNCOMMENT to enable scoring
+                # DBConnector.insert_service_health_check(scored_service_check)
 
             # Wait 5 seconds, reattempt targets.
             await asyncio.sleep(20)

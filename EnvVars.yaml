@@ -10,13 +10,16 @@ TEAMS:
             SSH_PRIV_KEY: Arch-SSH-Pair.pem
             SSH_SCRIPT: "md5sum md5checkfile.txt"
             MD5_SUM: "b2cfa4183267af678ea06c7407d4d6d8"
+          - PORT: 80
+            SERVICE_NAME: HTTP
+            URL: 52.91.194.25 # So currently we have no dns for this to really work yet, but for now just enter the ip address if the webserver.
+            PATH: "index.html"
       - IP: 127.0.0.1
         ACTIONS:
           - SERVICE_NAME: ICMP
-
   - TEAM_NAME: Rays
     TEAM_ID: 321452
     TARGETS:
-      ACTIONS:
-        - IP: 127.0.0.1
-          SERVICE_NAME: ICMP
+      - IP: 127.0.0.1
+        ACTIONS:
+          - SERVICE_NAME: ICMP

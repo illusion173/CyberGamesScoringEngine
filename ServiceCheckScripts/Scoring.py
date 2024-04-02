@@ -15,12 +15,10 @@ def score_generic(
 
 
 def score_icmp(given_service_health_check: ServiceHealthCheck) -> int:
-    print("SCORE ICMP")
     return score_generic(given_service_health_check, pass_score=10)
 
 
 def score_ssh(given_service_health_check: ServiceHealthCheck) -> int:
-    print("SCORE SSH")
     return score_generic(given_service_health_check, pass_score=25, warn_score=10)
 
 
