@@ -75,6 +75,10 @@ class FTPCheck:
         """Handle FTP errors."""
         details["raw"] = str(error)
         feedback = f"Failed to {action} on host {details['target']} as user {details['username']}, error: {error}"
+        if action == "login":
+            return self.service_check_priv.result.warn(
+                feedback=feedback, staff_details=details
+            )
         return self.service_check_priv.result.fail(
             feedback=feedback, staff_details=details
         )
