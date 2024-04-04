@@ -2,17 +2,17 @@ TEAMS:
   - TEAM_NAME: Dolphins
     TEAM_ID: 123132
     TARGETS:
-      - IP: 52.91.194.25
+      - IP: 34.199.94.73
         ACTIONS:
           - PORT: 22
             SERVICE_NAME: SSH
-            SSH_USERNAME: ec2-user
+            SSH_USERNAME: ubuntu
             SSH_PRIV_KEY: Arch-SSH-Pair.pem
             SSH_SCRIPT: "md5sum md5checkfile.txt"
-            MD5_SUM: "b2cfa4183267af678ea06c7407d4d6d8"
+            MD5_SUM: "8b8db3dfa426f6bdb1798d578f5239ae"
           - PORT: 80
             SERVICE_NAME: HTTP
-            URL: 52.91.194.25 # So currently we have no dns for this to really work yet, but for now just enter the ip address if the webserver.
+            URL: 34.199.94.73
             PATH: "index.html"
       - IP: 127.0.0.1
         ACTIONS:
@@ -20,6 +20,15 @@ TEAMS:
   - TEAM_NAME: Rays
     TEAM_ID: 321452
     TARGETS:
-      - IP: 127.0.0.1
+      - IP: 10.33.228.209
         ACTIONS:
-          - SERVICE_NAME: ICMP
+          - PORT: 21
+            SERVICE_NAME: FTP
+            FTP_USERNAME: anonymous
+            FTP_PASSWORD: ""
+            FTP_ACTION: GET
+            FILES:
+              - "test.txt"
+            MD5_SUM:
+              - "e63cfd71dd352395c82d60695613e2be"
+            DIRECTORY: "/srv/ftp/"

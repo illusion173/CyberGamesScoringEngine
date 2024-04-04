@@ -29,6 +29,7 @@ class HTTPCheck:
                 None, requests.get, full_url, details["timeout"]
             )
             if response.status_code == 200:
+                print("HTTP SUCCESS!")
                 self.service_check_priv.result.success(
                     feedback=f"HTTP Accessible to host {self.service_check_priv.target_host} for page {details['path']}",
                     staff_details=details,

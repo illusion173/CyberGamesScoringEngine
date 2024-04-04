@@ -27,9 +27,10 @@ async def main():
                 result = await coro  # Wait for the next task to complete
 
                 # Score all the service checks here
-                scored_service_check = Scoring.score_health_check(result)
-                print(scored_service_check.service_name)
-                print(scored_service_check.result.result)
+                if result:
+                    scored_service_check = Scoring.score_health_check(result)
+                    print(scored_service_check.service_name)
+                    # print(scored_service_check.result.result)
                 # RESULT HANDLING HERE
                 # UNCOMMENT to enable scoring
                 # DBConnector.insert_service_health_check(scored_service_check)

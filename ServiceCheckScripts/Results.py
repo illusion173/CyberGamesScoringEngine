@@ -28,7 +28,9 @@ class FTPInfo:
     ftp_username: str
     ftp_password: str
     directory: str
+    ftp_action: str
     files: Optional[List[str]]
+    md5_sums: Optional[List[str]]
 
 
 class HTTPInfo:
