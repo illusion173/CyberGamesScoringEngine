@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import enum
 import json
-from typing import Optional, Union, Any, List
+from typing import Optional, Union, Any, List, Dict
 
 
 class ResultCode(enum.Enum):
@@ -22,6 +22,15 @@ class SSHInfo:
     ssh_username: str
     ssh_script: str
     md5sum: str
+
+
+class SQLInfo:
+    username: str  # = sql_user
+    password: str  # = sql_password
+    db_name: str  # = sql_db
+    table_name: str  # = sql_test_table
+    # Key is SQL column, value is test data to insert
+    test_data: Dict[str, str]
 
 
 class FTPInfo:
@@ -189,6 +198,7 @@ class ServiceHealthCheck:
     ssh_info: Optional[SSHInfo]
     http_info: Optional[HTTPInfo]
     ftp_info: Optional[FTPInfo]
+    sql_info: Optional[SQLInfo]
     points: int = 0
     result: FinalResult = FinalResult()
 
@@ -202,6 +212,7 @@ class ServiceHealthCheck:
         target_port: Optional[str] = None,
         http_info: Optional[HTTPInfo] = None,
         ftp_info: Optional[FTPInfo] = None,
+        sql_info: Optional[SQLInfo] = None,
     ):
         self.target_host = target_host
         self.target_port = target_port
@@ -211,3 +222,4 @@ class ServiceHealthCheck:
         self.service_name = service_name
         self.http_info = http_info
         self.ftp_info = ftp_info
+        self.sql_info = sql_info
