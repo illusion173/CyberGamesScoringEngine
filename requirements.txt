@@ -9,5 +9,4 @@ faker
 psycopg2-binary
 pyyaml
 asyncio
-ftplib
 hashlib
