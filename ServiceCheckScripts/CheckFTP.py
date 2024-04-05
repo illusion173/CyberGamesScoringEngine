@@ -15,7 +15,7 @@ class FTPCheck:
         details = self._prepare_details()
 
         if not details:
-            return self.service_check_priv.result.fail(
+            return self.service_check_priv.result.error(
                 feedback=f"No FTP info given for target: {self.service_check_priv.target_host}",
                 staff_details=details,
             )
@@ -31,16 +31,26 @@ class FTPCheck:
         try:
             await self._login_ftp(ftp, details)
         except Exception as e:
-            return self._handle_ftp_error(e, details, action="login")
+            service_check_login_error = self._handle_ftp_error(
+                e, details, action="login"
+            )
+            ftp.close()
+            return service_check_login_error
 
-        # Execute FTP action (GET or PUT)
-        if details["ftp_action"] == "GET":
-            return await self._handle_get_action(ftp, details, loop)
-        elif details["ftp_action"] == "PUT":
-            return await self._handle_put_action(ftp, details, loop)
-
-        ftp.close()
-        return self.service_check_priv
+        match details["ftp_action"]:
+            case "GET":
+                get_service_check = await self._handle_get_action(ftp, details, loop)
+                ftp.close()
+                return get_service_check
+            case "PUT":
+                put_service_check = await self._handle_put_action(ftp, details, loop)
+                ftp.close()
+                return put_service_check
+            case _:
+                """No ftp_action"""
+                if ftp:
+                    ftp.close()
+                return self.service_check_priv
 
     def _prepare_details(self):
         """Prepare the FTP details from the service check."""
@@ -107,7 +117,6 @@ class FTPCheck:
                 failed_files.append(file)
                 self.service_check_priv.result.add_staff_detail({file: e})
         if failed_files:
-            ftp.close()
             failed_file_string = ", ".join(failed_files)
             details["successful_files"] = success_files
             return self.service_check_priv.result.warn(
@@ -137,7 +146,6 @@ class FTPCheck:
                 self.service_check_priv.result.add_staff_detail({file_name: str(e)})
 
         if failed_files:
-            ftp.close()
             return self._handle_file_transfer_error(
                 failed_files, success_files, details
             )
