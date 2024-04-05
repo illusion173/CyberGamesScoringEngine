@@ -22,7 +22,6 @@ def score_ssh(given_service_health_check: ServiceHealthCheck) -> int:
     return score_generic(given_service_health_check, pass_score=25, warn_score=10)
 
 
-# TO DO
 def score_ftp(given_service_health_check: ServiceHealthCheck) -> int:
     return score_generic(given_service_health_check, pass_score=40, warn_score=10)
 

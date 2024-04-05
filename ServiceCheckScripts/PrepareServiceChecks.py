@@ -37,8 +37,8 @@ def prepare_service_check(loaded_env_dict: dict) -> list:
                         new_ftp_info.ftp_action = action["FTP_ACTION"]
                     case "SQL":
                         new_sql_info = Results.SQLInfo()
-                        new_sql_info.username = action["SQL_USERNAME"]
-                        new_sql_info.password = action["SQL_PASSWORD"]
+                        new_sql_info.sql_username = action["SQL_USERNAME"]
+                        new_sql_info.sql_password = action["SQL_PASSWORD"]
                         new_sql_info.db_name = action["DB_NAME"]
                         new_sql_info.table_name = action["TABLE_NAME"]
                         new_sql_info.test_data = action["TEST_DATA"]

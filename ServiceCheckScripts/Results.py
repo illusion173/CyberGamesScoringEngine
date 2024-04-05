@@ -4,11 +4,8 @@ import json
 from typing import Optional, Union, Any, List, Dict
 
 
+# Enumeration for possible outcomes of a health check.
 class ResultCode(enum.Enum):
-    """
-    String representing the result of a check
-    """
-
     PASS = "success"
     FAIL = "failure"
     WARN = "partial"
@@ -17,6 +14,7 @@ class ResultCode(enum.Enum):
     ERROR = "error"
 
 
+# Represents SSH configuration and metadata.
 class SSHInfo:
     ssh_priv_key: str
     ssh_username: str
@@ -24,15 +22,16 @@ class SSHInfo:
     md5sum: str
 
 
+# Represents SQL configuration and test data.
 class SQLInfo:
-    username: str  # = sql_user
-    password: str  # = sql_password
-    db_name: str  # = sql_db
-    table_name: str  # = sql_test_table
-    # Key is SQL column, value is test data to insert
+    sql_username: str
+    sql_password: str
+    db_name: str
+    table_name: str
     test_data: Dict[str, str]
 
 
+# Represents FTP configuration and action details.
 class FTPInfo:
     ftp_username: str
     ftp_password: str
@@ -42,11 +41,13 @@ class FTPInfo:
     md5_sums: Optional[List[str]]
 
 
+# Represents basic HTTP information.
 class HTTPInfo:
     url: str
     path: str
 
 
+# Represents basic HTTPS information, functionally same as HTTPInfo in this context.
 class HTTPSInfo:
     url: str
     path: str
