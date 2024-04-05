@@ -9,4 +9,3 @@ faker
 psycopg2-binary
 pyyaml
 asyncio
-hashlib
