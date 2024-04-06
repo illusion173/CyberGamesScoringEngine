@@ -9,7 +9,7 @@ CREATE TABLE `targets` (
 CREATE TABLE `teams` (
   `team_id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, 
   `name` varchar(255) NOT NULL, 
-  `points` integer NOT NULL);
+  `points` integer NOT NULL DEFAULT 0);
 --
 -- Create model ports
 --
