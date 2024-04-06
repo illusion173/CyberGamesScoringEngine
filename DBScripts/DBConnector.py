@@ -68,7 +68,7 @@ def update_service_status(
 
     # Generate the SQL statement dynamically based on the fields_to_update dictionary
     # The statement uses placeholders for values to securely parameterize the query
-    update_fields = ", ".join([f"{key} = %s" for key in fields_to_update.keys()])
+    update_fields = ", ".join([f"{key} = %s" for key in fields_to_update])
     update_values = list(fields_to_update.values())
 
     # Complete SQL statement with placeholders for the WHERE clause
@@ -100,7 +100,7 @@ def insert_service_health_check(health_check: Results.ServiceHealthCheck):
             cursor = connection.cursor()
             # Ensure the team exists
             cursor.execute(
-                "SELECT * FROM teams WHERE team_id = %s", (health_check.team_id)
+                "SELECT * FROM teams WHERE team_id = %s", (health_check.team_id,)
             )
 
             team = cursor.fetchone()
@@ -114,7 +114,7 @@ def insert_service_health_check(health_check: Results.ServiceHealthCheck):
                 # Update a single service status
                 update_service_status(
                     int(health_check.team_id),
-                    int(health_check.target_host),
+                    health_check.target_id,
                     health_check.service_name,
                     health_check.target_port,
                     health_check.result.result,

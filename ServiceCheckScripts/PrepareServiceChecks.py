@@ -47,6 +47,7 @@ def prepare_service_check(loaded_env_dict: dict) -> list:
                         None
 
                 new_service_health_check = Results.ServiceHealthCheck(
+                    target_id=int(target["ID"]),
                     target_host=str(target["IP"]),
                     target_port=str(action.get("PORT", None)),
                     team_id=str(team["TEAM_ID"]),

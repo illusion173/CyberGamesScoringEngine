@@ -208,6 +208,7 @@ class ServiceHealthCheck:
         target_host: str,
         team_name: str,
         team_id: str,
+        target_id: int,
         service_name: str,
         ssh_info: Optional[SSHInfo] = None,
         target_port: Optional[str] = None,
@@ -215,6 +216,7 @@ class ServiceHealthCheck:
         ftp_info: Optional[FTPInfo] = None,
         sql_info: Optional[SQLInfo] = None,
     ):
+        self.target_id = target_id
         self.target_host = target_host
         self.target_port = target_port
         self.team_name = team_name
