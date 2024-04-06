@@ -6,12 +6,12 @@ from typing import Optional, Union, Any, List, Dict
 
 # Enumeration for possible outcomes of a health check.
 class ResultCode(enum.Enum):
-    PASS = "success"
-    FAIL = "failure"
-    WARN = "partial"
-    TIMEOUT = "timeout"
-    UNKNOWN = "unknown"
-    ERROR = "error"
+    PASS = "SUC"
+    FAIL = "FAL"
+    WARN = "PAR"
+    TIMEOUT = "TIM"
+    UNKNOWN = "UNK"
+    ERROR = "ERR"
 
 
 # Represents SSH configuration and metadata.
